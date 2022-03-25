@@ -1,7 +1,7 @@
 name: alphabet_list_scroll
 description: A customizable listview with A-Z side scrollbar to fast jump to the item of the selected character. Quick scroll through list via dragging through alphabets.
 version: 0.0.1
-homepage:
+homepage: https://github.com/Lawati97/alphabet_list_scroll
 
 environment:
   sdk: ">=2.15.0 <3.0.0"
