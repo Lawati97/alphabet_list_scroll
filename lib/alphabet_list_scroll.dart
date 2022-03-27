@@ -32,6 +32,7 @@ class AlphabetListScrollView extends StatefulWidget {
   final bool showPreview;
   final bool useVibration;
   final bool keyboardUsage;
+  final Locale locale;
   final List<AlphabetScrollListHeader> headerWidgetList;
 
   const AlphabetListScrollView(
@@ -42,6 +43,7 @@ class AlphabetListScrollView extends StatefulWidget {
       this.normalTextStyle = const TextStyle(color: Colors.black),
       this.showPreview = false,
       this.useVibration = true,
+      this.locale = const Locale('en'),
       this.headerWidgetList = const [],
       required this.indexedHeight,
       this.keyboardUsage = false})
@@ -167,7 +169,26 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
     _currentAlphabet = "";
     alphabetList = [];
     var tempList = widget.strList;
-    tempList.sort();
+    if(widget.locale.toLanguageTag() == 'ar'){ // for arabic words
+      selectedChar = 'ا';
+       tempList.sort();
+    tempList.sort((a, b) {
+      if (a.codeUnitAt(0) < 1570 ||
+          a.codeUnitAt(0) > 1610 &&
+              b.codeUnitAt(0) >= 1570 &&
+              b.codeUnitAt(0) <= 1610) {
+        return 1;
+      } else if (b.codeUnitAt(0) < 1570 ||
+          b.codeUnitAt(0) > 1610 &&
+              a.codeUnitAt(0) >= 1570 &&
+              a.codeUnitAt(0) <= 1610) {
+        return -1;
+      }
+      return a.compareTo(b);
+    });
+    }
+    else{ // for english words
+       tempList.sort();
     tempList.sort((a, b) {
       if (a.codeUnitAt(0) < 65 ||
           a.codeUnitAt(0) > 122 &&
@@ -181,7 +202,8 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
         return -1;
       }
       return a.compareTo(b);
-    });
+    }); 
+    }
     if (widget.headerWidgetList.length > 0) {
       totalHeight = 0;
       for (var i = 0; i < widget.headerWidgetList.length; i++) {
@@ -208,6 +230,7 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
 
   _initAlphabetMap(String currentStr, int i) {
     var currentHeight = widget.indexedHeight(i);
+    if(widget.locale.toLanguageTag() == 'en'){
     if (_currentAlphabet == "#") {
       return;
     }
@@ -222,10 +245,32 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
       alphabetList.add(currentStr);
       _currentAlphabet = currentStr;
       heightMap[currentStr] = totalHeight;
-      // print(
-      //     'i is $i currentStr = $currentStr height is $totalHeight and the currentHeight is $currentHeight');
     }
     totalHeight += currentHeight;
+    }
+    
+    else if(widget.locale.toLanguageTag() == 'ar'){
+      if (_currentAlphabet == "#") {
+      return;
+    }
+    if (currentStr.codeUnitAt(0) < 1570
+    || currentStr.codeUnitAt(0) == 1572
+    || currentStr.codeUnitAt(0) == 1574
+    || (currentStr.codeUnitAt(0) > 1594 && currentStr.codeUnitAt(0) < 1601)
+     || currentStr.codeUnitAt(0) > 1610) {
+      strMap["#"] = i;
+      alphabetList.add("#");
+      _currentAlphabet = "#";
+      heightMap["#"] = totalHeight;
+    } else if (_currentAlphabet != currentStr &&
+        (currentStr.codeUnitAt(0) >= 1570 && currentStr.codeUnitAt(0) <= 1610)) {
+      strMap[currentStr] = i;
+      alphabetList.add(currentStr);
+      _currentAlphabet = currentStr;
+      heightMap[currentStr] = totalHeight;
+    }
+    totalHeight += currentHeight;
+    }
   }
 
   _getSideSizes() {
