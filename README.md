@@ -12,7 +12,8 @@ Quick scroll through list via dragging through alphabets.
 | showPreview | bool | true | show preview on screen |
 | keyboardUsage | bool | true | The alphabet list will be wrapped in scrollview. |
 | indexedHeight | double Function(int) | query the height of widget with index |  |
-| headerWidgetList | List<AlphabetScrollListHeader> | headers |  |
+| headerWidgetList | List<AlphabetScrollListHeader> | headers |  | 
+| locale | Locale | Locale('en') | Change the language of the List Scroll| 
 
 ### AlphabetScrollListHeader
 | name | type | default | description|
