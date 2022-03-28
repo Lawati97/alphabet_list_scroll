@@ -1,3 +1,7 @@
+## 0.0.3
+*converting from getLangauageTag to locale.languageCode
+
+
 ## 0.0.2
 
 * Arabic language support
