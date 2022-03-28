@@ -169,7 +169,7 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
     _currentAlphabet = "";
     alphabetList = [];
     var tempList = widget.strList;
-    if(widget.locale.toLanguageTag() == 'ar'){ // for arabic words
+    if(widget.locale.languageCode == 'ar'){ // for arabic words
       selectedChar = 'ا';
        tempList.sort();
     tempList.sort((a, b) {
@@ -230,7 +230,7 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
 
   _initAlphabetMap(String currentStr, int i) {
     var currentHeight = widget.indexedHeight(i);
-    if(widget.locale.toLanguageTag() == 'en'){
+    if(widget.locale.languageCode == 'en'){
     if (_currentAlphabet == "#") {
       return;
     }
@@ -249,7 +249,7 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
     totalHeight += currentHeight;
     }
     
-    else if(widget.locale.toLanguageTag() == 'ar'){
+    else if(widget.locale.languageCode == 'ar'){
       if (_currentAlphabet == "#") {
       return;
     }
